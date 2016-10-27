@@ -20,12 +20,36 @@ td {
   border: 1px solid black;
 }
 
+@keyframes good {
+    from {background-color: gold;}
+    to {background-color: green;}
+}
+
+@keyframes bad {
+    from {background-color: white;}
+    to {background-color: red;}
+}
+
+
 tr.goodBonus:hover {
+  text-align: center;
+  font-size: 2em;
   background-color: green;
   color: gold;
+  animation-name: good;
+  animation-duration: 2s;
+  animation-iteration-count: 5;
+  animation-direction: alternate;
 }
 
 tr.badBonus:hover {
+  text-align: center;
+  font-family: monospace;
+  font-size: 2em;
   background-color: red;
   color: black;
+  animation-name: bad;
+  animation-duration: 2s;
+  animation-iteration-count: 5;
+  animation-direction: alternate;
 }

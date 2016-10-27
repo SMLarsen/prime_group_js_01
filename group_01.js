@@ -14,6 +14,7 @@ for (var i = 0; i < employees.length; i++) {
 }
 
 empBonuses.forEach(function(employee) {
+
   console.log("Name: " + employee[0] + ", Bonus Percentage: " + employee[1] +
   "%, Total Compensation: $" + employee[2] + ", Total Bonus: $" + employee[3]);
 });
