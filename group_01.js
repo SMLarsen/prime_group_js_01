@@ -65,11 +65,24 @@ for (var i = 0; i < employees.length; i++) {
 }
 
 // Log each employee's bonus info
+
+var localeOpts = {
+  style: "currency",
+  currency: "USD"
+};
+
 employees.forEach(function(employee) {
-  console.log(padRight("Name: " + employee.name, 15) +
-  padRight("Bonus Percentage: " + employee.bonusPercent * 100 + "%", 25) +
-  padRight("Total Compensation: $" + employee.totalComp, 30) +
-  padRight("Total Bonus: $" + employee.bonusAmt, 20));
+  if (employee.bonusAmt > 0) {
+    console.log(("%c" + padRight("Name: " + employee.name, 20) +
+    padRight("Bonus Percentage: " + employee.bonusPercent * 100 + "%", 25) +
+    padRight("Total Compensation: " + employee.totalComp.toLocaleString("en-US", localeOpts), 35) +
+    padRight("Total Bonus: " + employee.bonusAmt.toLocaleString("en-US", localeOpts), 25)), 'color: darkgreen; font-weight: bold;');
+  } else {
+    console.log(("%c" + padRight("Name: " + employee.name, 20) +
+    padRight("Bonus Percentage: " + employee.bonusPercent * 100 + "%", 25) +
+    padRight("Total Compensation: " + employee.totalComp.toLocaleString("en-US", localeOpts), 35) +
+    padRight("Total Bonus: " + employee.bonusAmt.toLocaleString("en-US", localeOpts), 25)), 'color: red; font-weight: bold;');
+  }
 });
 
 // Format and inject html bonus table
@@ -85,10 +98,10 @@ employees.forEach(function(employee) {
         employee.bonusPercent * 100 +
       "</td>" +
       "<td>" +
-        employee.totalComp +
+        employee.totalComp.toLocaleString("en-US", localeOpts) +
       "</td>" +
       "<td>" +
-        employee.bonusAmt
+        employee.bonusAmt.toLocaleString("en-US", localeOpts)
       "</td>" +
     "</tr>"
 });
