@@ -1,6 +1,6 @@
 h1 {
   color: green;
-  font-size: 6em;
+  font-size: 4em;
   text-align: center;
   font-family: 'Bungee Shade', cursive;
 }
@@ -14,7 +14,7 @@ table {
   border-spacing: 0.5rem;
   border: 1px solid black;
   margin-left: 10%;
-  background-color: lightgreen;
+  background-color: #D3D3D3;
 }
 
 td {
@@ -39,8 +39,8 @@ tr.goodBonus:hover {
   background-color: green;
   color: gold;
   animation-name: good;
-  animation-duration: 3s;
-  animation-iteration-count: 5;
+  animation-duration: 1s;
+  animation-iteration-count: 15;
   animation-direction: alternate;
 }
 
