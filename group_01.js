@@ -1,85 +1,109 @@
-var atticus = ["Atticus", "2405", "47000", 3];
-var jem = ["Jem", "62347", "63500", 4];
-var boo = ["Boo", "11435", "54000", 3];
-var scout = ["Scout", "6243", "74750", 5];
-var robert = ["Robert", "26835", "66000", 1];
-var mayella = ["Mayella", "89068", "35000", 2];
+function Employee(name, empNum, salary, rating) {
+  this.name = name;
+  this.empNum = empNum;
+  this.salary = parseInt(salary);
+  this.rating = rating;
+  this.bonusPercent = 0;
+}
+
+var atticus = new Employee("Atticus", "2405", "47000", 3);
+var jem = new Employee("Jem", "62347", "63500", 4);
+var boo = new Employee("Boo", "11435", "54000", 3);
+var scout = new Employee("Scout", "6243", "74750", 5);
+var robert = new Employee("Robert", "26835", "66000", 1);
+var mayella = new Employee("Mayella", "89068", "35000", 2);
 
 var employees = [atticus, jem, boo, scout, robert, mayella];
 
-var empBonuses = [];  // bonuses of all employees
-
-for (var i = 0; i < employees.length; i++) {
-  empBonuses.push(calcBonus(employees[i]));
+// Calculate bonus info and add/update employee
+function calcBonus(employee) {
+  calcBaseBonus(employee);
+  adjustLongevity(employee);
+  adjustBonusHighSalary(employee);
+  adjustBonusExtremes(employee);
+  employee.bonusAmt = employee.salary * employee.bonusPercent;
+  employee.totalComp = employee.salary + employee.bonusAmt;
 }
 
-empBonuses.forEach(function(employee) {
 
-  console.log("Name: " + employee[0] + ", Bonus Percentage: " + employee[1] +
-  "%, Total Compensation: $" + employee[2] + ", Total Bonus: $" + employee[3]);
-});
-
-function calcBonus(employee) {
-  var empBonus = []; // individual employee bonus array
-  var bonusPercent = 0;
-  empBonus.push(employee[0]);
-  switch (employee[3]) {
-    case 1, 2:
-      bonusPercent = 0;
-      break;
+function calcBaseBonus (employee) {
+  switch (employee.rating) {
     case 3:
-      bonusPercent = .04;
+      employee.bonusPercent = .04;
       break;
     case 4:
-      bonusPercent = .06;
+      employee.bonusPercent = .06;
       break;
     case 5:
-      bonusPercent = .1;
+      employee.bonusPercent = .1;
       break;
     default:
-      bonusPercent = 0;
+      employee.bonusPercent = 0;
   };
-  if (employee[1].length === 4) {
-    bonusPercent += .05;
-  }
-
-  if (employee[2] > 65000) {
-    bonusPercent -= .01;
-  }
-
-  if (bonusPercent > .13) {
-    bonusPercent = .13;
-  } else if (bonusPercent < 0) {
-    bonusPercent = 0;
-  }
-  empBonus.push(bonusPercent * 100);
-
-  empBonus.push(Math.round(employee[2] * 100) * (1 + bonusPercent) / 100);
-
-  empBonus.push(Math.round(bonusPercent * employee[2]));
-
-  return empBonus;
 };
 
+function adjustLongevity (employee) {
+  if (employee.empNum.length === 4) {
+    employee.bonusPercent += .05;
+  }
+};
+
+function adjustBonusHighSalary (employee) {
+  if (employee.salary > 65000) {
+    employee.bonusPercent -= .01;
+  }
+};
+
+function adjustBonusExtremes (employee) {
+  employee.bonusPercent = Math.min(employee.bonusPercent , .13);
+  employee.bonusPercent = Math.max(employee.bonusPercent , 0);
+};
+
+// Calculate bonus info for each employee
+for (var i = 0; i < employees.length; i++) {
+  calcBonus(employees[i]);
+}
+
+// Log each employee's bonus info
+employees.forEach(function(employee) {
+  console.log(padRight("Name: " + employee.name, 15) +
+  padRight("Bonus Percentage: " + employee.bonusPercent * 100 + "%", 25) +
+  padRight("Total Compensation: $" + employee.totalComp, 30) +
+  padRight("Total Bonus: $" + employee.bonusAmt, 20));
+});
+
+// Format and inject html bonus table
 var bonusTable = "";
 
 bonusTable += "<table><tr><th>Name</th><th>Bonus Percentage</th><th>Total Compensation</th><th>Total Bonus</th></tr>"
-empBonuses.forEach(function(empBonuses) {
+employees.forEach(function(employee) {
   var badBonus = "class=\"badBonus\"";
-  badBonus = empBonuses[1] === 0 ? "class=\"badBonus\"" : "class=\"goodBonus\"";
-  bonusTable += "<tr " + badBonus + "><td>" + empBonuses[0] +
+  badBonus = employee.bonusPercent === 0 ? "class=\"badBonus\"" : "class=\"goodBonus\"";
+  bonusTable += "<tr " + badBonus + "><td>" + employee.name +
       "</td>" +
       "<td>" +
-        empBonuses[1] +
+        employee.bonusPercent * 100 +
       "</td>" +
       "<td>" +
-        empBonuses[2] +
+        employee.totalComp +
       "</td>" +
       "<td>" +
-        empBonuses[3]
+        employee.bonusAmt
       "</td>" +
     "</tr>"
 });
 bonusTable += "</table>";
 
 document.getElementById('bonusTable').innerHTML = bonusTable;
+
+// right padding string with spaces to a total of n chars
+function padRight(string, n) {
+  if (string.length >= n) {
+    return string;
+  }
+  var max = (n - string.length);
+  for (var i = 0; i < max; i++) {
+    string += " ";
+  }
+  return string;
+};

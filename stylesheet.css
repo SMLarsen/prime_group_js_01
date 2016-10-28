@@ -1,7 +1,8 @@
 h1 {
   color: green;
+  font-size: 6em;
   text-align: center;
-font-family: 'Bungee Shade', cursive;
+  font-family: 'Bungee Shade', cursive;
 }
 
 body {
@@ -13,6 +14,7 @@ table {
   border-spacing: 0.5rem;
   border: 1px solid black;
   margin-left: 10%;
+  background-color: lightgreen;
 }
 
 td {
@@ -37,7 +39,7 @@ tr.goodBonus:hover {
   background-color: green;
   color: gold;
   animation-name: good;
-  animation-duration: 2s;
+  animation-duration: 3s;
   animation-iteration-count: 5;
   animation-direction: alternate;
 }
@@ -49,7 +51,7 @@ tr.badBonus:hover {
   background-color: red;
   color: black;
   animation-name: bad;
-  animation-duration: 2s;
+  animation-duration: 3s;
   animation-iteration-count: 5;
   animation-direction: alternate;
 }
